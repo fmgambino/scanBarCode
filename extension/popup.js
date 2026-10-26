@@ -12,4 +12,4 @@ $('new').onclick=generate;
 $('save').onclick=async()=>{await chrome.storage.local.set({relay:$('relay').value.trim(),pwa:$('pwa').value.trim()});await generate();$('save').textContent='Guardado'};
 $('copy').onclick=async()=>{if(currentLink){await navigator.clipboard.writeText(currentLink);$('copy').textContent='Enlace copiado'}};
 $('enter').onchange=()=>chrome.storage.local.set({autoEnter:$('enter').checked});
-chrome.storage.onChanged.addListener(c=>{if(c.connected||c.phoneOnline||c.relayState||c.lastResult)updateStatus()});init();
+if(chrome.storage?.onChanged?.addListener)chrome.storage.onChanged.addListener(c=>{if(c.connected||c.phoneOnline||c.relayState||c.lastResult)updateStatus()});init();

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SCAN-BARCODE® · Escáner inalámbrico",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Recibí códigos QR y de barras desde tu celular en campos web.",
   "permissions": [
     "storage",

@@ -1,3 +1,27 @@
+# SCAN-BARCODE® v2.4 — Corrección de extensión Chrome
+
+## Problema corregido
+La consola de la extensión mostraba `Cannot read properties of undefined (reading 'onChanged')` en `offscreen.js`. Se agregaron comprobaciones de disponibilidad de eventos, control de errores en los mensajes y manejo más robusto de la reconexión.
+
+## Actualizar
+1. Descomprimí el ZIP y subí su contenido a la raíz del repositorio GitHub.
+2. En `chrome://extensions`, **eliminá la versión anterior** de SCAN-BARCODE y cargá `extension/` mediante **Cargar descomprimida**. También podés reemplazar los archivos de la misma carpeta y presionar **Actualizar**.
+3. Abrí la extensión, presioná **Generar QR seguro** y verificá que muestre **Servidor conectado** antes de escanear.
+4. Escaneá el QR con la cámara del celular y abrí el enlace HTTPS de la PWA.
+5. Si la PWA no se actualiza, cerrá la aplicación instalada y borrá los datos del sitio en Chrome Android; volvé a abrir la URL.
+
+El relay desplegado de v2.3 es compatible: **no es necesario volver a desplegar Cloudflare para esta corrección**.
+
+## Direcciones configuradas
+- Relay: `wss://scanbridge-relay.fernando-m-gambino.workers.dev`
+- PWA: `https://fmgambino.github.io/scanBarCode/pwa/`
+
+## Diagnóstico
+Si la extensión dice **Reconectando…**, abrí `https://scanbridge-relay.fernando-m-gambino.workers.dev/health` y comprobá que responde con JSON. La respuesta HTTP del endpoint health no prueba el WebSocket pero confirma que el Worker responde.
+
+## Alcance de pruebas
+Validación estática y sintaxis; se requiere prueba real en Chrome y Android para confirmar la vinculación extremo a extremo.
+
 # SCAN-BARCODE® v2.3 — GitHub Pages + Chrome + Cloudflare
 
 ## Qué se corrigió

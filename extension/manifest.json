@@ -1,1 +1,32 @@
-{"manifest_version":3,"name":"ScanBridge · Escáner móvil","version":"2.0.0","description":"Recibí códigos QR y de barras desde tu celular en campos web.","permissions":["storage","offscreen","tabs","scripting"],"host_permissions":["http://*/*","https://*/*"],"background":{"service_worker":"background.js"},"action":{"default_popup":"popup.html"},"icons":{}}
+{
+  "manifest_version": 3,
+  "name": "ScanBridge · Escáner móvil",
+  "version": "2.1.0",
+  "description": "Recibí códigos QR y de barras desde tu celular en campos web.",
+  "permissions": [
+    "storage",
+    "offscreen",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png"
+    }
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}

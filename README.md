@@ -66,3 +66,14 @@ pwa/                  # HTML, CSS, JS, manifest, iconos, SW
 extension/            # Manifest V3, popup, offscreen, worker
 relay/                # Worker Cloudflare + Durable Object
 ```
+
+## Actualización 2.1 — footer e identidad visual
+
+- Footer responsive: © 2026 SCAN-BARCODE® · Todos los derechos reservados - Desarrollado por Electrónica Gambino.
+- Enlace externo seguro a la web del desarrollador.
+- Íconos PNG integrados a la PWA y a la extensión Chrome, incluido favicon y Apple Touch Icon.
+- Cache de Service Worker actualizado para distribuir los nuevos recursos.
+- Para actualizar Chrome, ingresar a `chrome://extensions` y pulsar **Actualizar** con modo desarrollador habilitado.
+- Para actualizar GitHub Pages, subir los cambios al repositorio; esperar el despliegue de Actions y recargar la PWA.
+
+**Nota:** Para operar entre redes diferentes sigue siendo necesario desplegar y configurar el relay Cloudflare como se explica arriba.

@@ -1,39 +1,45 @@
-# SCAN-BARCODE® v2.2 — GitHub Pages
+# SCAN-BARCODE® v2.3 — GitHub Pages + Chrome + Cloudflare
 
-## Corrección de la pantalla README
+## Qué se corrigió
 
-El repositorio se estaba publicando con **Deploy from a branch**, por lo que GitHub Pages mostró el README en vez de la PWA: faltaba `index.html` en la raíz. Esta versión incorpora `index.html` raíz que redirige a `pwa/` y mantiene el workflow de publicación directa de `pwa/`.
+- Extensión preconfigurada con `wss://scanbridge-relay.fernando-m-gambino.workers.dev` y `https://fmgambino.github.io/scanBarCode/pwa/`.
+- El QR es un enlace HTTPS completo: **podés escanearlo con la cámara normal del celular**. Al tocar el enlace se abre la PWA y se inicia la vinculación sin necesidad de `BarcodeDetector` para el QR de emparejamiento.
+- El lector integrado se mantiene como opción en navegadores compatibles.
+- Indicadores independientes de conexión al servidor y de vinculación del teléfono.
+- Relay actualizado para notificar a ambos dispositivos cuando se vinculan.
+- Se conserva el footer y los íconos.
 
-### Actualización recomendada
+## Actualizar GitHub Pages
 
-1. Subí **el contenido de esta carpeta a la raíz del repositorio** (no la carpeta contenedora, ni el archivo ZIP). No subas `.git` de una copia local.
-2. En GitHub → **Settings → Pages → Build and deployment → Source**, elegí **GitHub Actions**.
-3. Verificá que se haya ejecutado el workflow **Publicar PWA en GitHub Pages** desde `main` o `dev`. Si no se ejecuta, abrí **Actions** y lanzalo con *Run workflow*.
-4. Entrá a `https://fmgambino.github.io/scanBarCode/`. La app debe aparecer, no el README.
-5. Si preferís conservar **Deploy from a branch**, elegí la carpeta **/(root)**: el `index.html` raíz redirigirá a `pwa/`. **No** selecciones `/docs` a menos que publiques allí.
-6. Si aparece una versión vieja, cerrá las pestañas de la PWA, borrá los datos del sitio y recargá; se actualizó el nombre del caché del Service Worker.
+Subí el contenido completo de este ZIP a la raíz del repositorio `scanBarCode`. En GitHub, `Settings > Pages` debe estar configurado en **GitHub Actions**. El workflow incluido publica `pwa/` y el `index.html` raíz redirige a `/pwa/`.
 
-### Componentes
+## Actualizar extensión Chrome
 
-- `pwa/`: aplicación mobile first instalable, iconos, footer institucional, lector QR/barras y asistente de vinculación.
-- `extension/`: extensión Chrome MV3; cargar descomprimida desde `chrome://extensions`.
-- `relay/`: Cloudflare Worker + Durable Object; necesario para la comunicación real entre móvil y PC.
-- `.github/workflows/pages.yml`: despliegue de `pwa/` a GitHub Pages.
-- `index.html`: entrada de compatibilidad para publicación desde la raíz del repositorio.
+En `chrome://extensions`, desactivá/eliminá la extensión antigua si hay duplicados; cargá la carpeta `extension/` con **Cargar descomprimida** y presioná **Actualizar**. Abrí la extensión: la URL y el relay vienen preconfigurados. Se genera un QR automáticamente la primera vez. Para renovar credenciales, presioná **Generar nuevo QR seguro**. El botón **Copiar enlace** permite abrirlo manualmente.
 
-### Relay
+## IMPORTANTE: actualizar el relay que ya desplegaste
 
-```bash
-cd relay
-npm install
-npx wrangler login
-npx wrangler deploy
+Esta versión incluye una corrección necesaria en el relay. Desde PowerShell, dentro de `relay/`:
+
+```powershell
+npm.cmd install
+npm.cmd run deploy
 ```
 
-Configurá en la extensión el endpoint `wss://` del Worker desplegado y la dirección pública de la PWA. GitHub Pages **no ejecuta WebSockets ni Durable Objects**. No se necesita Supabase para esta arquitectura.
+La configuración `wrangler.toml` usa `name = "scanbridge-relay"`, el Worker que ya desplegaste. No hace falta volver a ejecutar `wrangler login` si seguís autenticado. Esperá a que Wrangler confirme el despliegue.
 
-### Limitaciones
+## Probar
 
-La lectura de cámara requiere HTTPS y navegador con `BarcodeDetector`; la extensión inserta en campos editables de páginas web compatibles, no en aplicaciones Windows nativas. La instalación PWA no puede forzarse en todos los navegadores. El sistema no fue validado con un despliegue real del relay ni con dos dispositivos físicos.
+1. Abrí la extensión en la PC. Debe indicar **Servidor conectado · esperando celular**.
+2. Generá o visualizá el QR.
+3. Con la **cámara normal del celular**, escaneá el QR de la pantalla de la PC y tocá el enlace HTTPS que muestra el sistema.
+4. La PWA abre el asistente y conecta automáticamente. Ambos equipos deben mostrar la vinculación.
+5. En la PC, abrí una página web, hacé clic dentro de un campo de texto, y escaneá un código desde la PWA.
 
-© 2026 SCAN-BARCODE® · Todos los derechos reservados — Desarrollado por Electrónica Gambino.
+## Límites
+
+- El QR contiene un secreto de sesión. No lo publiques ni compartas; renovalo cuando sea necesario.
+- La lectura de códigos de barras desde la PWA utiliza la API `BarcodeDetector`, disponible solo en navegadores compatibles. La vinculación con la **cámara normal** evita esta limitación para el QR inicial.
+- La inserción automática está destinada a campos editables de páginas web de Chrome; no escribe en programas nativos de Windows.
+- La opción Enter genera eventos sintéticos y puede no activar el envío de algunos formularios.
+- No se han realizado pruebas reales de extremo a extremo en dispositivos; se verificó sintaxis y estructura de los archivos.

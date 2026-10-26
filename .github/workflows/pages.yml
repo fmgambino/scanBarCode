@@ -1,7 +1,7 @@
 name: Publicar PWA en GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [main, dev, master]
   workflow_dispatch:
 permissions:
   contents: read
